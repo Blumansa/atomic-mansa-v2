@@ -23,3 +23,4 @@ class Signal(Base):
     cot_alignment = Column(String)
     badge = Column(String)
     pdf_url = Column(String)
+

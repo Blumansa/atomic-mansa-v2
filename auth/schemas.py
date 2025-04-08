@@ -11,8 +11,9 @@ class UserOut(BaseModel):
     email: EmailStr
 
     class Config:
-        orm_mode = True
+        from_attributes = True  # nouvelle version de Pydantic V2
 
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
+

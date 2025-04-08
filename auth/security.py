@@ -7,37 +7,37 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import User
 
-# 🔐 Clé secrète + Algo JWT
-SECRET_KEY = "change_this_secret_key_mansa🔥"
+# Clé secrète pour JWT
+SECRET_KEY = "mansa-🔥-secret"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 jours
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
-# 🔒 Hash password
+# 🔒 Hash
 def hash_password(password: str):
     return pwd_context.hash(password)
 
-# ✅ Verify password
+# ✅ Verify
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
 
-# 🧾 Créer un token JWT
+# 🎟️ JWT
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
     expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
-# 🔐 Décoder un token
+# 🔓 Decode
 def decode_access_token(token: str):
     try:
         return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
     except JWTError:
         return None
 
-# 📡 Session DB
+# 📡 Get DB
 def get_db():
     db = SessionLocal()
     try:
@@ -45,11 +45,11 @@ def get_db():
     finally:
         db.close()
 
-# 🔍 Utilisateur connecté
+# 👤 User connecté
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Token invalide ou expiré.",
+        detail="Token invalide.",
         headers={"WWW-Authenticate": "Bearer"},
     )
     payload = decode_access_token(token)

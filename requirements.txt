@@ -7,5 +7,3 @@ passlib[bcrypt]
 python-jose
 pydantic[email]
 aiohttp
-reportlab
-python-multipart
